@@ -1,7 +1,11 @@
 #!/bin/bash
-proxy_add=https://proxy22.iitd.ernet.in/cgi-bin/proxy.cgi
-username=abc
-pass=123
+proxy_add=https://proxy62.iitd.ernet.in/cgi-bin/proxy.cgi
+echo -n "Username: "
+read username
+echo -n "Password: "
+read -s pass
+echo
+
 getsessionid()
 {
 	session_id=`curl $proxy_add -s -k --no-progress-bar | grep -m 1 sessionid[\"=[:alpha:]\ ]*[[:digit:]]* | grep -oh "\"[[:digit:]][[:alnum:]]*\"" | sed 's|"||' | sed 's|"||' `
@@ -18,6 +22,7 @@ logout()
 login()
 {
 	logintext=`curl -d "sessionid=$session_id&action=Validate&userid=$username&pass=$pass" $proxy_add -k -s`
+
 }
 
 trap logout SIGINT
